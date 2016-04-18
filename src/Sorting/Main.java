@@ -8,6 +8,7 @@ public class Main {
   public static void main(String[] args) {
 //    Scanner scan = new Scanner(System.in);
     Integer[] nums = new Integer[10];
+//    Integer[] nums = {3, 2, 1, 1, 3, 2};
     Random rand = new Random();
     for (int i = 0; i < 10; i++) {
       nums[i] = rand.nextInt(10);
