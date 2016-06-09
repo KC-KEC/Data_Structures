@@ -8,7 +8,7 @@ public class Main {
   public static void main(String[] args) {
 //    Scanner scan = new Scanner(System.in);
     Integer[] nums = new Integer[10];
-//    Integer[] nums = {3, 2, 1, 1, 3, 2};
+//    Integer[] nums = {1, 2, 3, 1, 2};
     Random rand = new Random();
     for (int i = 0; i < 10; i++) {
       nums[i] = rand.nextInt(10);
@@ -54,11 +54,8 @@ public class Main {
     MergeSort.sort(tmp);
     System.out.println("Iterative Merge sort: " + Arrays.toString(tmp));
 
-    int[] tmp2 = new int[nums.length];
-    for (int i = 0; i < nums.length; i++) {
-      tmp2[i] = nums[i];
-    }
-    HeapSort.sort(tmp2);
-    System.out.println("Heap sort: " + Arrays.toString(tmp2));
+    tmp = Arrays.copyOf(nums, nums.length);
+    HeapSort.sort(tmp);
+    System.out.println("Heap sort: " + Arrays.toString(tmp));
   }
 }

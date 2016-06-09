@@ -7,9 +7,8 @@ import LinkedList.ListNode;
  * Hash table works best when the size is no more than two-thirds full of the
  * hash table. The size of hash table should be a prime number. Expand the hash
  * table should rehash!
- * 
- * @author Ke Chen
  *
+ * @author Ke Chen
  */
 public class SeperateChaining implements HashTable {
   private LinkedList[] hashArray;

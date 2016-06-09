@@ -30,7 +30,7 @@ public class QuickSort {
     int right = r - 1;
     while (left <= right) {
       while (left <= right && array[left].compareTo(pivot) < 0) left++;
-      while (right >= left && array[right].compareTo(pivot) > 0) right--;
+      while (right >= left && array[right].compareTo(pivot) >= 0) right--;
       if (left <= right) {
         swap(array, left++, right--);
       }
