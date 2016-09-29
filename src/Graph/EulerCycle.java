@@ -167,5 +167,4 @@ public class EulerCycle {
 
     return oddCnt == 0 || oddCnt == 2;
   }
-
 }
