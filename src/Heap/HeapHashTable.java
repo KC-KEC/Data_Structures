@@ -3,18 +3,46 @@ package Heap;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * HeapHashTable, used by Dijkstra Algorithm
+ *
+ * Heap + Map data structure
+ *
+ * HeapNode is a <key, value> pair, order is based on value
+ *
+ * valueMap to support O(1) in:
+ *  get(int key)
+ *  containsKey(key)
+ *
+ * idxMap to support O(logn) in:
+ *  put()
+ *  poll()
+ *  remove(int key)
+ *  updateKey(int key, int val)
+ *
+ *
+ *  Important Difference with HashHeap:
+ *
+ *    HashHeap is still a Heap with optimization on remove() function
+ *
+ *    HeapHashTable is a Hash Table ordered by value, with auto-reorder on key updating and
+ *    removing.
+ *
+ *
+ * Reference: https://github.com/mission-peace/interview/blob/master/src/com/interview/graph/DijkstraShortestPath.java
+ */
 public class HeapHashTable {
-  private Node[] heap;
-  private Map<Character, Integer> map;
+  private HeapNode[] heap;
+  private Map<Character, Integer> valueMap;
   private Map<Character, Integer> idxMap;
   private int N;
   private int maxSize;
   private boolean isMinHeap = true;
 
   public HeapHashTable() {
-    this.heap = new Node[10];
+    this.heap = new HeapNode[10];
     this.maxSize = 10;
-    this.map = new HashMap<>();
+    this.valueMap = new HashMap<>();
     this.idxMap = new HashMap<>();
   }
   public HeapHashTable(boolean isMinHeap) {
@@ -23,13 +51,13 @@ public class HeapHashTable {
   }
 
   public void put(char key, int val) {
-    if (map.containsKey(key)) {
+    if (valueMap.containsKey(key)) {
       updateKey(key, val);
     }
     else {
-      map.put(key, val);
+      valueMap.put(key, val);
       idxMap.put(key, N);
-      heap[N] = new Node(key, val);
+      heap[N] = new HeapNode(key, val);
       bubbleUp(N);
       N++;
       if (N > maxSize / 2) {
@@ -39,20 +67,20 @@ public class HeapHashTable {
   }
 
   public Integer get(char key) {
-    return map.get(key);
+    return valueMap.get(key);
   }
 
-  public Node remove(char key) {
-    if (!map.containsKey(key)) {
+  public HeapNode remove(char key) {
+    if (!valueMap.containsKey(key)) {
       return null;
     }
 
     int idx = idxMap.get(key);
-    Node res = heap[idx];
+    HeapNode res = heap[idx];
     swap(idx, N - 1);
     N--;
     bubbleDown(idx);
-    map.remove(key);
+    valueMap.remove(key);
     idxMap.remove(key);
 
     if (N < maxSize / 4) {
@@ -62,16 +90,16 @@ public class HeapHashTable {
     return res;
   }
 
-  public Node poll() {
+  public HeapNode poll() {
     if (N == 0) {
       return null;
     }
 
-    Node res = heap[0];
+    HeapNode res = heap[0];
     swap(0, N - 1);
     N--;
     bubbleDown(0);
-    map.remove(res.key);
+    valueMap.remove(res.key);
     idxMap.remove(res.key);
 
     if (N < maxSize / 4) {
@@ -81,7 +109,7 @@ public class HeapHashTable {
   }
 
   public boolean containsKey(char key) {
-    return map.containsKey(key);
+    return valueMap.containsKey(key);
   }
 
   public int size() {
@@ -93,35 +121,35 @@ public class HeapHashTable {
   }
 
   public void updateKey(char key, int val) {
-    if (!map.containsKey(key)) {
+    if (!valueMap.containsKey(key)) {
       return;
     }
 
     int idx = idxMap.get(key);
     heap[idx].val = val;
     if (isMinHeap) {
-      if (val < map.get(key)) {
+      if (val < valueMap.get(key)) {
         bubbleUp(idxMap.get(key));
       }
-      else if (val > map.get(key)) {
+      else if (val > valueMap.get(key)) {
         bubbleDown(idxMap.get(key));
       }
     }
     else {
-      if (val < map.get(key)) {
+      if (val < valueMap.get(key)) {
         bubbleDown(idxMap.get(key));
       }
-      else if (val > map.get(key)) {
+      else if (val > valueMap.get(key)) {
         bubbleUp(idxMap.get(key));
       }
     }
-    map.put(key, val);
+    valueMap.put(key, val);
   }
 
   private void swap(int l, int r) {
     idxMap.put(heap[l].key, r);
     idxMap.put(heap[r].key, l);
-    Node tmp = heap[l];
+    HeapNode tmp = heap[l];
     heap[l] = heap[r];
     heap[r] = tmp;
   }
@@ -183,7 +211,7 @@ public class HeapHashTable {
   }
 
   private void resize(int newSize) {
-    Node[] newHeap = new Node[newSize];
+    HeapNode[] newHeap = new HeapNode[newSize];
     System.arraycopy(heap, 0, newHeap, 0, N + 1);
     heap = newHeap;
   }

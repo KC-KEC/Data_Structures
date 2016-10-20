@@ -1,7 +1,7 @@
 package Graph;
 
 import Heap.HeapHashTable;
-import Heap.Node;
+import Heap.HeapNode;
 
 import java.util.*;
 
@@ -41,7 +41,7 @@ public class Dijkstra {
     distance.put(start, 0);
     path.put(start, start);
     while (!minHeap.isEmpty()) {
-      Node currNode = minHeap.poll();
+      HeapNode currNode = minHeap.poll();
       distance.put(currNode.key, currNode.val);
 
       for (char adj : graph.get(currNode.key).keySet()) {
