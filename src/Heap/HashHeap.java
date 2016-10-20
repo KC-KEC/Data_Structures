@@ -51,7 +51,7 @@ public class HashHeap {
       resize(size * 2);
     }
     heap[n] = val;
-    map.put(val, new Node(n, 1));
+    map.put(val, new Node(n, 1, val));
     bubbleUp(n);
     n++;
   }
@@ -124,6 +124,16 @@ public class HashHeap {
         map.remove(val);
       }
     }
+  }
+
+  /**
+   * Check if a number is in the Heap
+   *
+   * @param key
+   * @return
+   */
+  public boolean containsKey(int key) {
+    return this.map.containsKey(key);
   }
 
   private void bubbleUp(int idx) {
@@ -199,10 +209,12 @@ public class HashHeap {
   private class Node {
     int idx;
     int cnt;
+    int val;
 
-    Node(int idx, int cnt) {
+    Node(int idx, int cnt, int val) {
       this.idx = idx;
       this.cnt = cnt;
+      this.val = val;
     }
   }
 
