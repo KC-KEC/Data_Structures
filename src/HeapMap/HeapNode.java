@@ -1,4 +1,4 @@
-package Heap;
+package HeapMap;
 
 public class HeapNode implements Comparable<HeapNode>{
   public char key;

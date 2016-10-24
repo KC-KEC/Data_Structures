@@ -1,7 +1,7 @@
 package Graph;
 
-import Heap.HeapHashTable;
-import Heap.HeapNode;
+import HeapMap.HeapHashTable;
+import HeapMap.HeapNode;
 
 import java.util.*;
 
